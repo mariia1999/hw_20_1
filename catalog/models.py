@@ -1,6 +1,27 @@
 from django.db import models
 
 
+class Category(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Наименование категории",
+        help_text="Введите наименование категории",
+    )
+    product_description = models.TextField(
+        verbose_name="Описание категории",
+        help_text="Введите описание категории",
+        blank=True,
+        null=True,
+    )
+
+    class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     name = models.CharField(
         max_length=100,
@@ -21,6 +42,7 @@ class Product(models.Model):
         help_text="Загрузите фото товара",
     )
     category = models.ForeignKey(
+        Category,
         on_delete=models.SET_NULL,
         verbose_name="Категория товара",
         help_text="Введите категорию товара",
@@ -29,10 +51,10 @@ class Product(models.Model):
         related_name='products',
     )
     price = models.IntegerField(
-        verbose_name="Цена за покупка", help_text="Введите стоимость товара"
+        verbose_name="Цена за покупку", help_text="Введите стоимость товара"
     )
     created_at = models.DateField(
-        verbose_name="Дата создания", help_text="Введите дату создания товара"
+        verbose_name="Дата создания", help_text="Введите дату создания товара",
     )
     updated_at = models.DateField(
         verbose_name="Дата последнего изменения",
@@ -48,22 +70,4 @@ class Product(models.Model):
         return self.name
 
 
-class Category(models.Model):
-    name = models.CharField(
-        max_length=100,
-        verbose_name="Наименование категории",
-        help_text="Введите наименование категории",
-    )
-    product_description = models.TextField(
-        verbose_name="Описание категории",
-        help_text="Введите описание категории",
-        blank=True,
-        null=True,
-    )
 
-    class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
-
-    def __str__(self):
-        return self.name
