@@ -51,7 +51,7 @@ class Product(models.Model):
         related_name='products',
     )
     price = models.IntegerField(
-        verbose_name="Цена за покупка", help_text="Введите стоимость товара"
+        verbose_name="Цена за покупку", help_text="Введите стоимость товара"
     )
     created_at = models.DateField(
         verbose_name="Дата создания", help_text="Введите дату создания товара"
@@ -60,7 +60,6 @@ class Product(models.Model):
         verbose_name="Дата последнего изменения",
         help_text="Введите дату последнего изменения",
     )
-
 
     class Meta:
         verbose_name = "Товар"
