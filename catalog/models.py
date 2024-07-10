@@ -48,7 +48,7 @@ class Product(models.Model):
         help_text="Введите категорию товара",
         null=True,
         blank=True,
-        related_name='products',
+        related_name='catalog',
     )
     price = models.IntegerField(
         verbose_name="Цена за покупку", help_text="Введите стоимость товара"
@@ -59,6 +59,11 @@ class Product(models.Model):
     updated_at = models.DateField(
         verbose_name="Дата последнего изменения",
         help_text="Введите дату последнего изменения",
+    )
+    views_counter = models.PositiveIntegerField(
+        verbose_name="Счетчик просмотров",
+        help_text="Укажите кол-во просмотров",
+        default=0
     )
 
     class Meta:
