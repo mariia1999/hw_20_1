@@ -9,6 +9,11 @@ from blog.models import BlogPost
 class BlogPostListView(ListView):
     model = BlogPost
 
+    #def get_queryset(self, *args, **kwargs):
+        #queryset = super().get_queryset(*args, **kwargs)
+        #queryset = queryset.filter(is_published=True)
+        #return queryset
+
 
 class BlogPostDetailView(DetailView):
     model = BlogPost
@@ -39,7 +44,7 @@ class BlogPostUpdateView(UpdateView):
     success_url = reverse_lazy('blog:blogpost_list')
 
     def get_success_url(self):
-        return reverse('blog:blogpost_detail', args=[self.kwargs.get('pk')])
+        return reverse('blog:blogpost_detail', args=[self.kwargs.get('slug')])
 
 
 class BlogPostDeleteView(DeleteView):

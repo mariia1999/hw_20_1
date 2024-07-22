@@ -7,7 +7,10 @@ class BlogPost(models.Model):
         verbose_name="Заголовок",
         help_text="Введите заголовок",
     )
-    slug = models.SlugField(
+    slug = models.CharField(
+        max_length= 50,
+        verbose_name="Ссылка",
+        help_text="Введите ссылку",
         unique=True,
         blank=True,
     )
@@ -26,7 +29,11 @@ class BlogPost(models.Model):
     created_at = models.DateField(
         verbose_name="Дата создания", auto_now_add=True,
     )
-    is_published = models.BooleanField(default=True),
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name="Опубликовано",
+        help_text="Опубликовать запись"
+    ),
 
     view_count = models.PositiveIntegerField(
         verbose_name="Счетчик просмотров",
