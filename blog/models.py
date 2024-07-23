@@ -33,7 +33,7 @@ class BlogPost(models.Model):
         default=False,
         verbose_name="Опубликовано",
         help_text="Опубликовать запись"
-    ),
+    )
 
     view_count = models.PositiveIntegerField(
         verbose_name="Счетчик просмотров",
