@@ -1,12 +1,14 @@
 import secrets
 
+from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 
+from catalog.forms import StyleFormMixin
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, ResetPasswordForm
 from users.models import User
 
 
@@ -38,3 +40,30 @@ def email_verification(request, token):
     user.save()
     return redirect(reverse('users:login'))
 
+
+class UserResetPasswordView(PasswordResetView, StyleFormMixin):
+    form_class = ResetPasswordForm
+    template_name = 'users/reset_password.html'
+    success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        try:
+            user = User.objects.get(email=email)
+            if user:
+                password = User.objects.make_random_password(length=10)
+                user.set_password(password)
+                user.save()
+                send_mail(
+                    subject='Сброс пароля',
+                    message=f' Ваш новый пароль {password}',
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[user.email]
+                )
+            return redirect(reverse('users:login'))
+        except:
+            return redirect(reverse('users:not_mail'))
+
+
+class NotMailPageView(TemplateView):
+    template_name = "users/not_mail.html"
