@@ -14,10 +14,10 @@ class StyleFormMixin:
                 fild.widget.attrs['class'] = "form-control"
 
 
-class ProductForm(ModelForm):
+class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('owner',)
 
     def clean_name(self):
         forbidden = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево',
